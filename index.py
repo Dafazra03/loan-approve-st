@@ -34,6 +34,11 @@ st.markdown("""
             margin-top: 20px;
             border-radius: 5px;
             font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: #C5303E;
         }
         .result-box {
             margin-top: 20px;
@@ -72,8 +77,11 @@ for i, col in enumerate(columns):
     value = st.number_input(f'{col}', min_value=0.0, value=0.0, format="%.4f", key=f'input_{i}')
     inputs.append(value)
 
-# Tombol submit
-if st.button('Enter', key='submit', help='Klik untuk memprediksi', css_class="submit-button"):
+# Tombol submit dengan HTML
+submit = st.markdown('<button class="submit-button">Enter</button>', unsafe_allow_html=True)
+
+# Cek jika tombol diklik
+if st.session_state.get('button_clicked'):
     df, _ = create_df(inputs)
     st.write('Daftar Input:')
     st.write(df)
@@ -84,5 +92,15 @@ if st.button('Enter', key='submit', help='Klik untuk memprediksi', css_class="su
 
     # Tampilkan hasil prediksi
     st.markdown(f'<div class="result-box">{hasil}</div>', unsafe_allow_html=True)
+
+# Script untuk menangani klik tombol
+st.markdown("""
+    <script>
+        const btn = window.parent.document.querySelector('.submit-button');
+        btn.addEventListener('click', function() {
+            window.parent.streamlitRerun();
+        });
+    </script>
+""", unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
