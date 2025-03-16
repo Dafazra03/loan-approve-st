@@ -70,7 +70,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Judul aplikasi
-# st.markdown('<div class="container">', unsafe_allow_html=True)
 st.markdown('<div class="title">Credit Risk Prediction</div>', unsafe_allow_html=True)
 
 # Fungsi untuk membuat DataFrame
@@ -92,18 +91,18 @@ _, columns = create_df([0] * 10)
 # Mengelompokkan input agar lebih terstruktur
 st.subheader("Financial Information")
 for col in columns[:5]:
-    value = st.number_input(f'{col}', min_value=0.0, value=0.0, format="%.4f", key=col)
+    value = st.number_input(f'{col}', min_value=0.0, value=None, format="%.4f", key=col)
     inputs.append(value)
 
 st.subheader("Loan and Asset Details")
 for col in columns[5:]:
-    value = st.number_input(f'{col}', min_value=0.0, value=0.0, format="%.4f", key=col)
+    value = st.number_input(f'{col}', min_value=0.0, value=None, format="%.4f", key=col)
     inputs.append(value)
 
 # Fungsi untuk mereset input
 def reset_inputs():
     for col in columns:
-        st.session_state[col] = 0.0
+        st.session_state[col] = None
 
 # Tombol submit dan reset
 col1, col2 = st.columns(2)
@@ -115,7 +114,7 @@ with col2:
 # Validasi jika tombol "Predict" diklik
 if submit:
     # Pastikan semua input tidak kosong
-    if any(value == 0.0 for value in inputs):
+    if any(value is None for value in inputs):
         st.warning("⚠️ Semua input harus diisi dengan benar.")
     else:
         df, _ = create_df(inputs)
