@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Load model
-model = joblib.load('model/rf_new.pkl')
+model = joblib.load('model/rf_best_model.pkl')
 
 # CSS untuk mempercantik tampilan
 st.markdown("""
